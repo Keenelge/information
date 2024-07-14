@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"outDir": "dist",
+		"rootDir": "src",
+		"strict": true,
+		"moduleResolution": "Node",
+		"allowSyntheticDefaultImports": true,
+		"noErrorTruncation": true,
+
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": false,
+
+		"declaration": true,
+		"declarationMap": true,
+		"declarationDir": "./dist/types",
+		// "emitDeclarationOnly": true,
+
+		"skipLibCheck": false,
+		"forceConsistentCasingInFileNames": true,
+
+		"resolveJsonModule": true,
+		// "esModuleInterop": true,
+
+		"baseUrl": ".",
+		"paths": {
+			"@constants/*": ["./src/constants/*"],
+			"@util/*": ["./src/util/*"],
+			"@classes/*": ["./src/classes/*"],
+			"@core/*": ["./src/core/*"],
+			"@config/*": ["./src/config/*"],
+			"config": ["./src/config.json"],
+			"@data/*": ["./src/data/*"]
+		}
+	},
+	"tsc-alias": {
+		"resolveFullPaths": true,
+		"verbose": false
+	},
+	"include": ["src"]
+}

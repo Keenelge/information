@@ -70,18 +70,6 @@ client.once("ready", async () => {
 	logger.success("All Guilds cached")
 
 	client.emit("guildsCached", client)
-
-	// let a = "123"
-	// let b = "456"
-
-	// if (a === b) resendIfNeed(client)
-
-	// setInterval(
-	// 	() => {
-	// 		resendIfNeed(client)
-	// 	},
-	// 	10 * 60 * 1000
-	// )
 })
 
 async function run() {

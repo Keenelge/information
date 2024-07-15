@@ -14,6 +14,8 @@ export interface SendInfoOptions {
 	embedText?: string
 }
 
+let sending = false
+
 async function sendInformation({ client, embedText }: SendInfoOptions) {
 	embedText ??= createResponsiblesEmbedText(getResponsibleUsers(client))
 
@@ -23,6 +25,7 @@ async function sendInformation({ client, embedText }: SendInfoOptions) {
 
 	if (!channel) {
 		logger.error(`Channel not found: ${coreConfig.channelId}`)
+		sending = false
 		return
 	}
 
@@ -50,6 +53,8 @@ async function sendInformation({ client, embedText }: SendInfoOptions) {
 			messageId = message.id
 
 			fs.writeFileSync("src/messageId", messageId)
+
+			sending = false
 		})
 		.catch((error) => {
 			logger.error("Can't send embed\n" + error)
@@ -67,6 +72,8 @@ async function fetchCurrentInformationMessage(
 }
 
 export function resendIfNeed(client: Client) {
+	sending = true
+
 	fetchCurrentInformationMessage(client).then((message) => {
 		if (!message) {
 			sendInformation({ client })
@@ -77,7 +84,10 @@ export function resendIfNeed(client: Client) {
 
 		const newEmbedText = createResponsiblesEmbedText(getResponsibleUsers(client))
 
-		if (currentEmbedText === newEmbedText) return
+		if (currentEmbedText === newEmbedText) {
+			sending = false
+			return
+		}
 
 		message
 			.delete()
@@ -99,7 +109,11 @@ export class Core {
 		[message]: ArgsOf<"messageDelete">,
 		client: Client
 	): Promise<void> {
-		if (!guildsCached || message.id !== messageId) return
+		if (!guildsCached) return
+
+		if (message.id !== messageId) return
+
+		if (sending) return
 
 		resendIfNeed(client)
 	}

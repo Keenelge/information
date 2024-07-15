@@ -1,11 +1,13 @@
 import { Client } from "@classes/Client"
 import { default as coreConfig } from "@config/core.json" assert { type: "json" }
+import { dirname } from "@discordx/importer"
 import { Logger } from "@util/Logger"
 import { EmbedBuilder, GuildTextBasedChannel, Message, ThreadChannel } from "discord.js"
 import { ArgsOf, Discord, On } from "discordx"
 import fs from "fs"
 import { createResponsiblesEmbedText, getResponsibleUsers } from "./responsibleUsers"
-let messageId = fs.readFileSync("src/messageId").toString()
+
+let messageId = fs.readFileSync(`${dirname(import.meta.url)}/../messageId`).toString()
 
 const logger = new Logger("Send")
 
@@ -52,7 +54,7 @@ async function sendInformation({ client, embedText }: SendInfoOptions) {
 		.then((message) => {
 			messageId = message.id
 
-			fs.writeFileSync("src/messageId", messageId)
+			fs.writeFileSync(`${dirname(import.meta.url)}/../messageId`, messageId)
 
 			sending = false
 		})

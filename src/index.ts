@@ -82,4 +82,5 @@ async function run() {
 	await client.login(process.env.TOKEN)
 }
 
-void run()
+await importx(`${dirname(import.meta.url)}/core/sendInformation.{ts,js}`)
+// void run()

@@ -8,6 +8,7 @@ import fs from "fs"
 import { createResponsiblesEmbedText, getResponsibleUsers } from "./responsibleUsers"
 
 let messageId = fs.readFileSync(`${dirname(import.meta.url)}/../messageId`).toString()
+messageId = messageId.trim() === "" ? "0" : messageId
 
 const logger = new Logger("Send")
 

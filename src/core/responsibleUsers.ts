@@ -126,7 +126,7 @@ export function createResponsiblesEmbedText(responsibleUsers: ResponsibleUsers):
 						"\n"
 				}
 			} else {
-				desc += `**${coreConfig.cross} <@&${responsibleRole.ID}> — ${responsibleRole.Description}**\n`
+				desc += `**${coreConfig.cross} <@&${responsibleRole.StaffRole}> — ${responsibleRole.Description}**\n`
 
 				const responsibleUser = responsibleUsers[responsibleRoleName][0]
 

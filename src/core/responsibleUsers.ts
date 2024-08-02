@@ -148,9 +148,10 @@ export function createResponsiblesEmbedText(responsibleUsers: ResponsibleUsers):
 			desc +=
 				`**${coreConfig.cross} ${users.length === 1 ? custom.Description.Single : custom.Description.Bunch}**\n` +
 				users.reduce<string>((acc, userId) => {
-					if (userId.startsWith("!")) {
+					if (userId.charAt(0) === "!") {
+						userId = userId.substring(1)
 						if (!responsibleUsers[userId] || !responsibleUsers[userId][0]) return acc
-						
+
 						return `${acc}${coreConfig.dot} <@${responsibleUsers[userId][0]}>\n`
 					}
 

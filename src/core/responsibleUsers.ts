@@ -96,6 +96,14 @@ export function getResponsibleUsers(client: Client): ResponsibleUsers {
 	Object.keys(customConfig).forEach((customName) => {
 		customConfig[customName as keyof typeof customConfig].Users.forEach(
 			(memberId: Snowflake) => {
+				if (memberId.charAt(0) === "!") {
+					const responsibleRoleName = memberId.substring(1)
+
+					if (!responsibleUsers[responsibleRoleName] || !responsibleUsers[responsibleRoleName][0]) return
+
+					memberId = responsibleUsers[responsibleRoleName][0]
+				}
+
 				const member = guild.members.cache.get(memberId)
 
 				if (!member) return
@@ -148,13 +156,6 @@ export function createResponsiblesEmbedText(responsibleUsers: ResponsibleUsers):
 			desc +=
 				`**${coreConfig.cross} ${users.length === 1 ? custom.Description.Single : custom.Description.Bunch}**\n` +
 				users.reduce<string>((acc, userId) => {
-					if (userId.charAt(0) === "!") {
-						userId = userId.substring(1)
-						if (!responsibleUsers[userId] || !responsibleUsers[userId][0]) return acc
-
-						return `${acc}${coreConfig.dot} <@${responsibleUsers[userId][0]}>\n`
-					}
-
 					return `${acc}${coreConfig.dot} <@${userId}>\n`
 				}, "")
 		})
